@@ -87,7 +87,7 @@
     </div>
     <div id="directions-panel"></div>
     </div> -->
-    <div id="directions-panel"></div>
+    <div id="directions-panel" style="display: none;"></div>
     <script>
       function initMap() {
         var directionsService = new google.maps.DirectionsService;
@@ -114,10 +114,21 @@
         //     });
         //   }
         // }
-
+        waypts.push({
+            location: new google.maps.LatLng('23.7612908', '90.3866391'),
+            stopover: true
+        });
+        waypts.push({
+            location: new google.maps.LatLng('23.7637334', '90.3969929'),
+            stopover: true
+        });
+        waypts.push({
+            location: new google.maps.LatLng('23.762106', '90.389045'),
+            stopover: true
+        });
         directionsService.route({
           origin: new google.maps.LatLng('23.76252', '90.38358'),
-          destination: new google.maps.LatLng('23.7757053', '90.4097754'),
+          destination: new google.maps.LatLng('23.771409', '90.408332'),
           waypoints: waypts,
           optimizeWaypoints: true,
           travelMode: 'DRIVING'
