@@ -1,0 +1,12 @@
+1.https://cloud.google.com/ click right side console
+2.so. https://console.cloud.google.com dashboard
+3. create project or select project from left header meanu.
+4. click left menu bar and click api and service ->  Credentials 
+5. click create Credentials-> Api key
+6. Click library -> search javascript map api -> make enable
+7.  click left menu bar and click api and service ->  Library
+8. search direction api -> make enable
+9. search place api -> make enable
+here you can enable other library as you want 
+
+https://www.youtube.com/watch?v=PYHbEKc_7-Y
