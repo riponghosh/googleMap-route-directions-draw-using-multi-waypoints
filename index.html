@@ -147,6 +147,7 @@
             summaryPanel.innerHTML = '';
             // For each route, display summary information.
             var total = 0;
+            var totalTime = 0;
 
             for (var i = 0; i < route.legs.length; i++) {
               var routeSegment = i + 1;
@@ -156,11 +157,14 @@
               summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
               summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
               total += route.legs[i].distance.value;
-              console.log(route.legs[i]);
+              totalTime += route.legs[i].duration.value;
+              //console.log(route.legs[i]); //see all property then distance property view
             }
             total = total / 1000;
+            totalTime = totalTime / 60;
             // document.getElementById('total').innerHTML = total + ' km';
             summaryPanel.innerHTML+="<br><br>Total Distance: "+total + ' km';
+            summaryPanel.innerHTML+="<br><br>Total Time: "+totalTime + ' Min';
 
           } else {
             window.alert('Directions request failed due to ' + status);
