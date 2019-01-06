@@ -47,7 +47,7 @@
         background-color: #FFEE77;
         padding: 10px;
         overflow: scroll;
-        height: 174px;
+        height: 100%;
       }
     </style>
   </head>
@@ -87,11 +87,18 @@
     </div>
     <div id="directions-panel"></div>
     </div> -->
-    <div id="directions-panel" style="display: none;"></div>
+    <div id="directions-panel"></div>
+    <div id="directions-panel2"></div>
+    <!-- <p>Total Distance: <span id="total"></span></p> -->
+
     <script>
       function initMap() {
         var directionsService = new google.maps.DirectionsService;
-        var directionsDisplay = new google.maps.DirectionsRenderer;
+        var directionsDisplay = new google.maps.DirectionsRenderer({
+          draggable: true,
+          panel: document.getElementById('directions-panel2')
+        });
+
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 10,
           center: {lat: 23.76252, lng: 90.38358}
@@ -139,6 +146,8 @@
             var summaryPanel = document.getElementById('directions-panel');
             summaryPanel.innerHTML = '';
             // For each route, display summary information.
+            var total = 0;
+
             for (var i = 0; i < route.legs.length; i++) {
               var routeSegment = i + 1;
               summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
@@ -146,7 +155,13 @@
               summaryPanel.innerHTML += route.legs[i].start_address + ' to ';
               summaryPanel.innerHTML += route.legs[i].end_address + '<br>';
               summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
+              total += route.legs[i].distance.value;
+              console.log(route.legs[i]);
             }
+            total = total / 1000;
+            // document.getElementById('total').innerHTML = total + ' km';
+            summaryPanel.innerHTML+="<br><br>Total Distance: "+total + ' km';
+
           } else {
             window.alert('Directions request failed due to ' + status);
           }
