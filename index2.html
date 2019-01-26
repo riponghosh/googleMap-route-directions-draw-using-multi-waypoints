@@ -122,25 +122,34 @@
         //   }
         // }
         waypts.push({
-            location: new google.maps.LatLng('23.7612908', '90.3866391'),
+            location: new google.maps.LatLng('23.761482', '90.386331'),
             stopover: true
         });
         waypts.push({
-            location: new google.maps.LatLng('23.7637334', '90.3969929'),
+            location: new google.maps.LatLng('23.762106', '90.388974'),
             stopover: true
         });
         waypts.push({
-            location: new google.maps.LatLng('23.762106', '90.389045'),
+            location: new google.maps.LatLng('23.764122', '90.393512'),
+            stopover: true
+        });
+        waypts.push({
+            location: new google.maps.LatLng('23.770719', '90.405921'),
             stopover: true
         });
         directionsService.route({
-          origin: new google.maps.LatLng('23.76252', '90.38358'),
-          destination: new google.maps.LatLng('23.771409', '90.408332'),
+          origin: new google.maps.LatLng('23.762317', '90.385406'),
+          destination: new google.maps.LatLng('23.774195', '90.412542'),
           waypoints: waypts,
           optimizeWaypoints: true,
           travelMode: 'DRIVING'
         }, function(response, status) {
           if (status === 'OK') {
+            console.log(response.request.origin.location.lat()+','+response.request.origin.location.lng());
+            console.log(response); 
+            for(let i=0;i<response.request.waypoints.length;i++){
+              console.log(response.request.waypoints[i].location.location.lat());
+            }
             directionsDisplay.setDirections(response);
             var route = response.routes[0];
             var summaryPanel = document.getElementById('directions-panel');
@@ -148,7 +157,8 @@
             // For each route, display summary information.
             var total = 0;
             var totalTime = 0;
-
+            var latlng1=new google.maps.LatLng('23.762317', '90.385406');
+            // var latlng2=new google.maps.LatLng(hlat,hlon);
             for (var i = 0; i < route.legs.length; i++) {
               var routeSegment = i + 1;
               summaryPanel.innerHTML += '<b>Route Segment: ' + routeSegment +
@@ -158,7 +168,12 @@
               summaryPanel.innerHTML += route.legs[i].distance.text + '<br><br>';
               total += route.legs[i].distance.value;
               totalTime += route.legs[i].duration.value;
-              console.log(route.legs[i].end_location.lat()); //see all property then distance property view
+              // console.log(route.legs[i].start_location.lat()+','+route.legs[i].start_location.lng()); //see all property then distance property view
+
+              var latlng2=new google.maps.LatLng(route.legs[i].start_location.lat(), route.legs[i].start_location.lng());
+              // console.log(latlng1)
+              // console.log(distance(23.762317,90.385406,route.legs[i].start_location.lat(), route.legs[i].start_location.lng(),'K'))
+              // console.log(google.maps.geometry.spherical.computeDistanceBetween (latlng1, latlng2))
             }
             // total = total / 1000;
             // totalTime = totalTime / 60;
@@ -171,9 +186,32 @@
           }
         });
       }
+
+      function distance(lat1, lon1, lat2, lon2, unit) {
+        if ((lat1 == lat2) && (lon1 == lon2)) {
+          return 0;
+        }
+        else {
+          var radlat1 = Math.PI * lat1/180;
+          var radlat2 = Math.PI * lat2/180;
+          var theta = lon1-lon2;
+          var radtheta = Math.PI * theta/180;
+          var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+          if (dist > 1) {
+            dist = 1;
+          }
+          dist = Math.acos(dist);
+          dist = dist * 180/Math.PI;
+          dist = dist * 60 * 1.1515;
+          if (unit=="K") { dist = dist * 1.609344 }
+          if (unit=="N") { dist = dist * 0.8684 }
+          return dist;
+        }
+      }
     </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJt8aPurXbV6-Wmh1K9NxJbmRjaSZojuk&callback=initMap">
     </script>
+    <!-- <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false&v=3&libraries=geometry"></script> -->
   </body>
 </html>
